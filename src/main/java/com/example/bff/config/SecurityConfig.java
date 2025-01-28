@@ -14,8 +14,15 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.cors(Customizer.withDefaults()).authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
-				.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+		http.cors(Customizer.withDefaults())
+				.csrf(csrf -> csrf.ignoringRequestMatchers("/ws/alertas")) // Desactiva CSRF solo para WebSocket
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/ws/alertas").permitAll() // Permitir acceso público a WebSocket
+						.anyRequest().authenticated() // Requerir autenticación para todo lo demás
+				)
+				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+
 		return http.build();
 	}
+
 }
