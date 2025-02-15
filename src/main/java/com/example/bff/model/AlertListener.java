@@ -17,11 +17,11 @@ public class AlertListener {
     }
 
     // Escucha alertas desde RabbitMQ
-    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
-    public void listenRabbitMQ(String message) {
-        System.out.println("📥 Mensaje recibido desde RabbitMQ: " + message);
-        // webSocketHandler.sendMessageToAll(message);
-    }
+    // @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+    // public void listenRabbitMQ(String message) {
+    // System.out.println("📥 Mensaje recibido desde RabbitMQ: " + message);
+    // // webSocketHandler.sendMessageToAll(message);
+    // }
 
     // Escucha alertas desde Kafka (topic: alertas)
     @KafkaListener(topics = "${spring.kafka.topic.alertas}", groupId = "grupo-alertas")
