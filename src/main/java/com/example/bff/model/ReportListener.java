@@ -25,19 +25,21 @@ public class ReportListener {
         this.objectMapper.registerModule(new JavaTimeModule());
     }
 
-    @RabbitListener(queues = RabbitMQConfigService2.QUEUE_NAME_2)
-    public void listen(String message) {
-        try {
+    // @RabbitListener(queues = RabbitMQConfigService2.QUEUE_NAME_2)
+    // public void listen(String message) {
+    // try {
 
-            HistoricoSignosVitales reporte = objectMapper.readValue(message, HistoricoSignosVitales.class);
-            System.out.println("📊 Reporte recibido desde RabbitMQ para paciente ID: " + reporte.getPacienteId());
+    // HistoricoSignosVitales reporte = objectMapper.readValue(message,
+    // HistoricoSignosVitales.class);
+    // System.out.println("📊 Reporte recibido desde RabbitMQ para paciente ID: " +
+    // reporte.getPacienteId());
 
-            guardarReporteComoArchivo(reporte);
+    // guardarReporteComoArchivo(reporte);
 
-        } catch (Exception e) {
-            System.err.println("❌ Error procesando el reporte: " + e.getMessage());
-        }
-    }
+    // } catch (Exception e) {
+    // System.err.println("❌ Error procesando el reporte: " + e.getMessage());
+    // }
+    // }
 
     private void guardarReporteComoArchivo(HistoricoSignosVitales reporte) {
         try {
