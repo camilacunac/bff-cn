@@ -22,17 +22,16 @@ public class ReportListener {
 
     public ReportListener() {
         this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule()); // ✅ Enable LocalDateTime support
+        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     @RabbitListener(queues = RabbitMQConfigService2.QUEUE_NAME_2)
     public void listen(String message) {
         try {
-            // Convert JSON message to HistoricoSignosVitales object
+
             HistoricoSignosVitales reporte = objectMapper.readValue(message, HistoricoSignosVitales.class);
             System.out.println("📊 Reporte recibido desde RabbitMQ para paciente ID: " + reporte.getPacienteId());
 
-            // Save the report as a JSON file
             guardarReporteComoArchivo(reporte);
 
         } catch (Exception e) {
@@ -40,17 +39,14 @@ public class ReportListener {
         }
     }
 
-    // Method to save the report as a JSON file
     private void guardarReporteComoArchivo(HistoricoSignosVitales reporte) {
         try {
-            // Create the directory if it does not exist
+
             Files.createDirectories(Paths.get(REPORTES_DIR));
 
-            // Generate filename based on timestamp and patient ID
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
             String filename = REPORTES_DIR + "reporte_" + reporte.getPacienteId() + "_" + timestamp + ".json";
 
-            // Serialize the object to JSON and save it
             objectMapper.writeValue(new File(filename), reporte);
             System.out.println("✅ Reporte guardado en: " + filename);
         } catch (IOException e) {
