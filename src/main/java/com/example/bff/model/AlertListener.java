@@ -27,6 +27,6 @@ public class AlertListener {
     @KafkaListener(topics = "${spring.kafka.topic.alertas}", groupId = "grupo-alertas")
     public void listenKafka(String message) {
         System.out.println("📥 Mensaje recibido desde Kafka (Topic: alertas): " + message);
-        webSocketHandler.sendMessageToAll(message);
+        // webSocketHandler.sendMessageToAll(message);
     }
 }
